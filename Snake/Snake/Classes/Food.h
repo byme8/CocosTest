@@ -1,15 +1,16 @@
-#pragma once
+#ifndef COCOSTEST_CLASSES_FOOD_H
+#define COCOSTEST_CLASSES_FOOD_H
 #include<cocos2d.h>
 
-using namespace cocos2d;
 
-class Food : public Sprite
+class Food : public cocos2d::Sprite
 {
-	Size spawnRect;
-	Food(Size SpawnRect);
+	cocos2d::Size spawnRect;
+	Food(cocos2d::Size SpawnRect);
 public:
 
 	void respawn();
-	static Food* create(Size SpawnRect);
+	static Food* create(cocos2d::Size SpawnRect);
 };
 
+#endif COCOSTEST_CLASSES_FOOD_H

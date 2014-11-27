@@ -7,6 +7,7 @@
 .metadata
 bin/
 tmp/
+*.lib
 *.tmp
 *.bak
 *.swp
@@ -45,10 +46,19 @@ local.properties
 
 [Dd]ebug/
 [Rr]elease/
+[Dd]ebug.win32/
+[Rr]elease.win32/
 x64/
 build/
 [Bb]in/
 [Oo]bj/
+cocos2d/
+proj.android/
+proj.ios_mac/
+proj.linux/
+proj.win8.1-universal/
+proj.wp8-xaml/
+
 
 # MSTest test Results
 [Tt]est[Rr]esult*/

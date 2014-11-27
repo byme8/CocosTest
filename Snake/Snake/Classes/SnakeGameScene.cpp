@@ -3,17 +3,18 @@ USING_NS_CC;
 
 SnakeGameScene::SnakeGameScene()
 {
-	screenSize = Director::sharedDirector()->getWinSize();
-	snake = Snake::create(5, Point(screenSize.width / 2, screenSize.height / 2));
-	food = Food::create(screenSize);
+	_screenSize = Director::sharedDirector()->getWinSize();
+	_snake = new Snake(5, Point(_screenSize.width / 2, _screenSize.height / 2));
+	_food = Food::create(_screenSize);
+
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->setSwallowTouches(true);
-
 	touchListener->onTouchBegan = CC_CALLBACK_2(SnakeGameScene::onTouchBegan, this);
 	touchListener->onTouchMoved = CC_CALLBACK_2(SnakeGameScene::onTouchMoved, this);
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
+
 Scene* SnakeGameScene::createScene()
 {
 	// 'scene' is an autorelease object
@@ -50,8 +51,8 @@ bool SnakeGameScene::init()
 	auto menu = Menu::create(closeItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
-	this->addChild(snake);
-	this->addChild(food);
+	this->addChild(_snake);
+	this->addChild(_food);
 
 	this->schedule(schedule_selector(SnakeGameScene::update));
 
@@ -62,37 +63,37 @@ bool SnakeGameScene::onTouchBegan(Touch *touch, Event *e)
 {
 	return true;
 }
+
 void SnakeGameScene::onTouchMoved(Touch *touch, Event *e)
 {
 	auto delta = touch->getDelta();
 	if (abs(delta.x) > abs(delta.y))
 		if (delta.x > 0)
-			snake->updateWay(SnakeWay::Right);
+			_snake->updateWay(SnakeWay::Right);
 		else
-			snake->updateWay(SnakeWay::Left);
+			_snake->updateWay(SnakeWay::Left);
 	else
 		if (delta.y > 0)
-			snake->updateWay(SnakeWay::Up);
+			_snake->updateWay(SnakeWay::Up);
 		else
-			snake->updateWay(SnakeWay::Down);
+			_snake->updateWay(SnakeWay::Down);
 }
-
 
 void SnakeGameScene::update(float t)
 {
 	static float waitTime = 0;
 	if (waitTime > 0.1)
 	{
-		snake->update(t);
+		_snake->update(t);
 
-		auto pos = snake->getHead();
+		auto pos = _snake->getHead();
 
-		if (pos.x<0 || pos.x>screenSize.width || pos.y<0 || pos.y > screenSize.height || snake->isDead())
-			snake->reset();
-		if (food->getPosition() == snake->getHead())
+		if (pos.x<0 || pos.x>_screenSize.width || pos.y<0 || pos.y > _screenSize.height || _snake->isDead())
+			_snake->reset();
+		if (_food->getPosition() == _snake->getHead())
 		{
-			snake->incLength();
-			food->respawn();
+			_snake->incLength();
+			_food->respawn();
 		}
 		waitTime = 0;
 	}
